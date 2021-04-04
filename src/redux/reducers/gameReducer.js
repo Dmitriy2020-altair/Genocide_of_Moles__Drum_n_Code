@@ -41,7 +41,7 @@ const gameReducer = (state = initialState, action) => {
       return {
         ...state,
         score: newScore,
-        gameStatus: (newScore === 5) ? gameStatus.overSuccesfully : state.gameStatus,
+        gameStatus: (newScore === 100) ? gameStatus.overSuccesfully : state.gameStatus,
         stepInterval: (newScore % 10 === 0) ? state.stepInterval - 300 : state.stepInterval,
       };
     }
