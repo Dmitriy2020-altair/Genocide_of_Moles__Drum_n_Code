@@ -1,0 +1,55 @@
+.game-board {
+	list-style: none;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	width: 40vw;
+	height: 40vw;
+	margin: auto;
+
+	&__hole {
+		width: 100%;
+		height: 100%;
+		position: relative;
+		overflow: hidden;
+
+		&.failed::after {
+			box-shadow: 0 0 0 5px rgb(177, 1, 1);
+		}
+
+		&.succes::after {
+			box-shadow: 0 0 0 5px rgb(0, 179, 0);
+		}
+
+		&::after {
+			content: '';
+			position: absolute;
+			right: 8px;
+			bottom: 0;
+			left: 8px;
+			height: 30%;
+			border-radius: 50%;
+			background-color: black ;
+			z-index: -1;
+		}
+	}
+
+	&__cell {
+		width: 25%;
+		height: 25%;
+	}
+
+	&__character {
+		user-select: none;
+		width: 100%;
+		height: 100%;
+		transition: transform .25s ease-in-out;
+		transform: translateY(100%);
+		object-fit: cover;
+
+
+		&.show {
+			transform: translateY(0);
+		}
+	}
+}

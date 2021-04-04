@@ -1,0 +1,31 @@
+{
+	"extends": [
+		"react-app",
+		"react-app/jest",
+		"airbnb",
+		"airbnb/hooks"
+	],
+	"rules": {
+		"no-console": "warn",
+		"react/button-has-type": "off",
+		"react/no-array-index-key": "off",
+		"no-plusplus": "off",
+		"react/prop-types": "off",
+		"prefer-const": "off",
+		"consistent-return": "off",
+		"no-restricted-syntax": "off",
+		"max-len": "off",
+		"no-use-before-define": "off",
+		"no-alert": "off",
+		"no-fallthrough": "off",
+		"no-param-reassign": "off",
+		"import/prefer-default-export": "off",
+		"react/react-in-jsx-scope": "off",
+		"jsx-a11y/label-has-associated-control": "off",
+		"react/jsx-props-no-spreading": "off",
+		"eqeqeq": "off",
+		"no-underscore-dangle": "off",
+		"jsx-a11y/click-events-have-key-events": "off",
+		"jsx-a11y/no-noninteractive-element-interactions": "off"
+	}
+}
