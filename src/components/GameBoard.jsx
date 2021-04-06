@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { HOLES_AMOUNT } from '../constants';
-import { failedHit, succesfullHit } from '../redux/actions';
+import { failedHit, successfulHit } from '../redux/actions';
 import { gameSliceSelector } from '../redux/reducers/gameReducer';
 import getRandomNum from '../utils/getRandomNum';
 import './GameBoard.scss';
@@ -9,18 +9,18 @@ import './GameBoard.scss';
 const GameBoard = () => {
   const [molePosition, setMolePosition] = useState(null);
   const [failedHolePosition, setFailedHolePosition] = useState(null);
-  const [succesHolePosition, setSuccesHolePosition] = useState(null);
+  const [successHolePosition, setSuccessHolePosition] = useState(null);
 
   const dispatch = useDispatch();
 
   const { stepInterval } = useSelector(gameSliceSelector);
 
-  const dispatchSucces = () => {
-    dispatch(succesfullHit());
+  const dispatchSuccess = () => {
+    dispatch(successfulHit());
 
-    setSuccesHolePosition(molePosition);
+    setSuccessHolePosition(molePosition);
 
-    setTimeout(() => setSuccesHolePosition(null), 40);
+    setTimeout(() => setSuccessHolePosition(null), 40);
   };
 
   const dispatchFail = useCallback((e) => {
@@ -36,7 +36,7 @@ const GameBoard = () => {
 
   const handleGameBoardClick = (e) => {
     if (e.target.matches(`.game-board__character[data-index="${molePosition}"]`)) {
-      dispatchSucces();
+      dispatchSuccess();
     } else {
       dispatchFail(e);
     }
@@ -52,7 +52,7 @@ const GameBoard = () => {
         intervalId = setInterval(() => {
           setMolePosition(getRandomNum(0, HOLES_AMOUNT));
 
-          if (!succesHolePosition) {
+          if (!successHolePosition) {
             dispatchFail();
           }
         }, stepInterval);
@@ -60,7 +60,7 @@ const GameBoard = () => {
     }
 
     return () => clearInterval(intervalId);
-  }, [stepInterval, failedHolePosition, succesHolePosition, dispatchFail]);
+  }, [stepInterval, failedHolePosition, successHolePosition, dispatchFail]);
 
   let holes = [];
 
@@ -70,7 +70,7 @@ const GameBoard = () => {
         <div
           data-index={i}
           className={`game-board__hole
-           ${succesHolePosition === i ? 'succes' : ''}
+           ${successHolePosition === i ? 'success' : ''}
            ${failedHolePosition === i ? 'failed' : ''}
            `}
         >

@@ -43,7 +43,7 @@ function App() {
         </button>
       </div>
     );
-  } else if (gameSlice.gameStatus === gameStatus.overSuccesfully) {
+  } else if (gameSlice.gameStatus === gameStatus.overSuccessfully) {
     gameBody = (
       <div className="modal">
         <h2>Congratulations, you won!</h2>

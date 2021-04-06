@@ -1,6 +1,6 @@
 import { gameStatus } from '../../constants';
 import {
-  FAILED_GAME, FAILED_HIT, START_GAME, SUCCESFULL_HIT, WIN_GAME,
+  FAILED_GAME, FAILED_HIT, START_GAME, SUCCESSFUL_HIT, WIN_GAME,
 } from '../types';
 
 const initialState = {
@@ -24,7 +24,7 @@ const gameReducer = (state = initialState, action) => {
     case WIN_GAME: {
       return {
         ...state,
-        gameStatus: gameStatus.overSuccesfully,
+        gameStatus: gameStatus.overSuccessfully,
       };
     }
 
@@ -35,13 +35,13 @@ const gameReducer = (state = initialState, action) => {
       };
     }
 
-    case SUCCESFULL_HIT: {
+    case SUCCESSFUL_HIT: {
       const newScore = state.score + 1;
 
       return {
         ...state,
         score: newScore,
-        gameStatus: (newScore === 100) ? gameStatus.overSuccesfully : state.gameStatus,
+        gameStatus: (newScore === 100) ? gameStatus.overSuccessfully : state.gameStatus,
         stepInterval: (newScore % 10 === 0) ? state.stepInterval - 300 : state.stepInterval,
       };
     }

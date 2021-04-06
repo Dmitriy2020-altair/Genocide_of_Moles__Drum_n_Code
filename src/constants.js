@@ -1,7 +1,7 @@
 export const gameStatus = {
   notStarted: 0,
   inProgress: 1,
-  overSuccesfully: 2,
+  overSuccessfully: 2,
   overFailed: 3,
 };
 

@@ -13,11 +13,16 @@
 		position: relative;
 		overflow: hidden;
 
+		&:hover::after {
+			animation: blur 500ms linear infinite;
+			box-shadow: none;
+		}
+
 		&.failed::after {
 			box-shadow: 0 0 0 5px rgb(177, 1, 1);
 		}
 
-		&.succes::after {
+		&.success::after {
 			box-shadow: 0 0 0 5px rgb(0, 179, 0);
 		}
 
@@ -43,13 +48,27 @@
 		user-select: none;
 		width: 100%;
 		height: 100%;
-		transition: transform .25s ease-in-out;
-		transform: translateY(100%);
+		transition: transform .25s ease-in-out, opacity .25s ease-in-out;
+		transform: translateY(50%) scale(0);
 		object-fit: cover;
-
+		opacity: 0;
+		cursor: pointer;
 
 		&.show {
-			transform: translateY(0);
+			transform: translateY(-5%) scale(1);
+			opacity: 1;
 		}
+	}
+}
+
+@keyframes blur {
+	0% {
+		border-left: 6px solid #fff;
+	}
+	25% {
+		border-top: 6px solid #fff;
+	}
+	50% {
+		border-right: 6px solid #fff;
 	}
 }
