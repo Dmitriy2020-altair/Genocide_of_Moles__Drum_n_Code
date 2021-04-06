@@ -1,6 +1,7 @@
-import { gameStatus } from '../../constants';
+import { gameStatus, HOLES_AMOUNT } from '../../constants';
+import getRandomNum from '../../utils/getRandomNum';
 import {
-  FAILED_GAME, FAILED_HIT, START_GAME, SUCCESSFUL_HIT, WIN_GAME,
+  FAILED_GAME, FAILED_HIT, HIDE_MOLE, SHOW_MOLE, START_GAME, SUCCESSFUL_HIT, WIN_GAME,
 } from '../types';
 
 const initialState = {
@@ -53,6 +54,20 @@ const gameReducer = (state = initialState, action) => {
         ...state,
         fails: newFailsCount,
         gameStatus: (newFailsCount === 3) ? gameStatus.overFailed : state.gameStatus,
+      };
+    }
+
+    case HIDE_MOLE: {
+      return {
+        ...state,
+        molePosition: null,
+      };
+    }
+
+    case SHOW_MOLE: {
+      return {
+        ...state,
+        molePosition: getRandomNum(0, HOLES_AMOUNT),
       };
     }
 

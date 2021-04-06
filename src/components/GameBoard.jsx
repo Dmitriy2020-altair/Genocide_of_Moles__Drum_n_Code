@@ -1,26 +1,34 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { HOLES_AMOUNT } from '../constants';
-import { failedHit, successfulHit } from '../redux/actions';
+import { HOLES_AMOUNT, SHORT_DELAY, LONG_DELAY } from '../constants';
+import {
+  failedHit, hideMole, showMole, successfulHit,
+} from '../redux/actions';
 import { gameSliceSelector } from '../redux/reducers/gameReducer';
-import getRandomNum from '../utils/getRandomNum';
 import './GameBoard.scss';
 
 const GameBoard = () => {
-  const [molePosition, setMolePosition] = useState(null);
+  const { stepInterval, molePosition } = useSelector(gameSliceSelector);
   const [failedHolePosition, setFailedHolePosition] = useState(null);
   const [successHolePosition, setSuccessHolePosition] = useState(null);
 
   const dispatch = useDispatch();
 
-  const { stepInterval } = useSelector(gameSliceSelector);
+  const showNewMole = useCallback(() => {
+    dispatch(hideMole());
+
+    setTimeout(() => dispatch(showMole()), SHORT_DELAY);
+  }, [dispatch]);
 
   const dispatchSuccess = () => {
-    dispatch(successfulHit());
-
     setSuccessHolePosition(molePosition);
 
-    setTimeout(() => setSuccessHolePosition(null), 40);
+    showNewMole();
+
+    setTimeout(() => {
+      setSuccessHolePosition(null);
+      dispatch(successfulHit());
+    }, LONG_DELAY);
   };
 
   const dispatchFail = useCallback((e) => {
@@ -28,11 +36,14 @@ const GameBoard = () => {
 
     if (targetHole) {
       setFailedHolePosition(Number(targetHole.getAttribute('data-index')));
-      setTimeout(() => setFailedHolePosition(null), 40);
     }
 
-    dispatch(failedHit());
-  }, [dispatch]);
+    showNewMole();
+    setTimeout(() => {
+      setFailedHolePosition(null);
+      dispatch(failedHit());
+    }, LONG_DELAY);
+  }, [dispatch, showNewMole]);
 
   const handleGameBoardClick = (e) => {
     if (e.target.matches(`.game-board__character[data-index="${molePosition}"]`)) {
@@ -43,21 +54,15 @@ const GameBoard = () => {
   };
 
   useEffect(() => {
+    showNewMole();
+  }, [showNewMole]);
+
+  useEffect(() => {
     let intervalId;
 
-    if (!failedHolePosition) {
-      setTimeout(() => {
-        setMolePosition(getRandomNum(0, HOLES_AMOUNT));
-
-        intervalId = setInterval(() => {
-          setMolePosition(getRandomNum(0, HOLES_AMOUNT));
-
-          if (!successHolePosition) {
-            dispatchFail();
-          }
-        }, stepInterval);
-      }, 20);
-    }
+    intervalId = setInterval(() => {
+      if (!successHolePosition) dispatchFail();
+    }, stepInterval);
 
     return () => clearInterval(intervalId);
   }, [stepInterval, failedHolePosition, successHolePosition, dispatchFail]);

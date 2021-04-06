@@ -6,3 +6,7 @@ export const gameStatus = {
 };
 
 export const HOLES_AMOUNT = 16;
+
+export const LONG_DELAY = 40;
+
+export const SHORT_DELAY = 20;
